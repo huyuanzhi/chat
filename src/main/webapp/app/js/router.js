@@ -1,0 +1,1 @@
+define(["jquery","underscore","backbone","views/home/main"],function(d,c,f,b){var e=f.Router.extend({routes:{"*actions":"defaultAction"},defaultAction:function(g){b.render()}});var a=function(){var g=new e();f.history.start()};return{initialize:a}});

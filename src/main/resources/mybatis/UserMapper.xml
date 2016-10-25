@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="UserMapper">
+
+    <resultMap type="User" id="userResultMap">
+        <id column="uid" property="uid"/>
+        <result column="openid" property="openId"/>
+        <result column="password" property="password"/>
+        <result column="nickname" property="username"/>
+        <result column="create_date" property="createDate"/>
+        <result column="is_use" property="isUse"/>
+        <result column="type" property="type"/>
+        <result column="img" property="avatar"/>
+        <result column="gender" property="gender"/>
+        <result column="sign" property="sign"/>
+        <result column="id" property="id"/>
+    </resultMap>
+
+    <insert id="register" parameterType="User" useGeneratedKeys="true" keyProperty="uid">
+        INSERT INTO tb_user (openId, nickname, create_date, is_use, type, img, gender,id,password,email,sign)
+        VALUES (#{openId}, #{username}, #{createDate}, #{isUse}, #{type}, #{avatar}, #{gender}, #{id},#{password}, #{email},#{sign});
+    </insert>
+
+    <select id="login" parameterType="User" resultMap="userResultMap">
+        SELECT uid , id,nickname,is_use,img,gender,sign FROM tb_user where email = #{email} AND password = #{password}
+    </select>
+
+    <select id="getUserByOpenId" parameterType="java.lang.String" resultMap="userResultMap">
+        select uid,id,nickname,is_use,img,gender,sign from tb_user where openid = #{openId};
+    </select>
+
+    <select id="getUserByUserId" parameterType="java.lang.String" resultMap="userResultMap">
+        select id, uid,nickname,is_use,img,gender,sign from tb_user where uid = #{uid}
+    </select>
+
+    <select id="findUserExistByEmail" parameterType="String" resultType="java.util.Map">
+        SELECT 1 FROM tb_user where email = #{email}
+    </select>
+</mapper>

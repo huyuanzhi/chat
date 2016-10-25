@@ -1,0 +1,1 @@
+define(["jquery","underscore","backbone","collections/example_collection","text!templates/examples/list.html"],function(d,b,f,c,a){var e=f.View.extend({el:d("#page"),initialize:function(){this.collection=new c},render:function(){var g={},h=this;this.collection.deferred.done(function(){g.examples=h.collection.models;h.$el.html(b.template(a,g))})}});return new e});

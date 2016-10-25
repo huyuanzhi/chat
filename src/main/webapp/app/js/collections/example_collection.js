@@ -1,0 +1,1 @@
+define(["underscore","backbone","models/example_model"],function(b,d,a){var c=d.Collection.extend({model:a,url:"path/to/json/examples",initialize:function(){this.deferred=this.fetch()}});return c});
