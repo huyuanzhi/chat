@@ -25,4 +25,6 @@ public interface UserService {
     User getUserByUserId(String userId) throws Exception;
 
     Object findUserExistByEmail(String email) throws Exception;
+
+    User getUserById(String to) throws Exception;
 }

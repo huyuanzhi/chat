@@ -37,4 +37,8 @@
     <select id="findUserExistByEmail" parameterType="String" resultType="java.util.Map">
         SELECT 1 FROM tb_user where email = #{email}
     </select>
+
+    <select id="getUserById" parameterType="java.lang.String" resultMap="userResultMap">
+        SELECT nickname,img FROM tb_user where id = #{id}
+    </select>
 </mapper>

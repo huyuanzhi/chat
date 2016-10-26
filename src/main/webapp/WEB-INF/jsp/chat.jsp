@@ -71,23 +71,33 @@
                 }, function(){
                     var message = {
                         mine:"${sessionScope.user.id}",
-                        to:data.from
+                        to:data.from,
+                        mineName:"${sessionScope.user.username}"
                     };
+                    layer.msg('正在进入游戏..', {icon: 1,time:2000});
                     socket.emit("acceptChess",message);
                 }, function(){
-                    layer.msg('宝宝希望你下次不要怂！', {icon: 1});
+                    layer.msg('宝宝希望你下次不要怂！', {icon: 5});
                 });
             });
             socket.on("acceptChess",function(data){
-                alert(data.from);
                 layer.open({
                     type: 2,
-                    title: '与'+data.againstName+"进行五子棋中。。。",
-                    shadeClose: true,
-                    shade: false,
+                    title: '与'+data.name+"进行五子棋中。。。",
+                    id: "chess",
+                    shade: 0,
                     maxmin: false, //开启最大化最小化按钮
                     area: ['700px', '720px'],
-                    content: '<%=basePath%>app/playChess?to='+data.from+"&type="+data.type
+                    content: '<%=basePath%>app/playChess?to='+data.from+"&type="+data.type,
+                    cancel: function(){
+                        socket.emit("chessAbandon",data.from);
+                    }
+                });
+            });
+
+            socket.on("chessAbandon",function(){
+                layer.msg('对手已经放弃了比赛，窗口即将关闭！',{icon:5},function(){
+                    layer.closeAll('iframe');
                 });
             });
             //监听发送消息

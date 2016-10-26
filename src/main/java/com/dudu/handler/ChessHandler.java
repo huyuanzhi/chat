@@ -25,7 +25,7 @@ public class ChessHandler implements DataListener {
         SocketIOClient playClient = CacheUtil.getClient(to);
         Map message=new HashMap();
         message.put("from",request.getMine());
-        message.put("msg",request.getMineName()+"邀请你一起玩五子棋，站个痛快，赶快应战吧！");
+        message.put("msg",request.getMineName()+"邀请你一起玩五子棋，赶快应战吧！");
         playClient.sendEvent("playChess",message);
     }
 }

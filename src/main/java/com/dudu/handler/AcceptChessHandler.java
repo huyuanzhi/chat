@@ -4,6 +4,9 @@ import com.corundumstudio.socketio.AckRequest;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.listener.DataListener;
 import com.dudu.model.ChessRequest;
+import com.dudu.model.User;
+import com.dudu.service.user.UserService;
+import com.dudu.util.BeanUtils;
 import com.dudu.util.CacheUtil;
 
 import java.util.HashMap;
@@ -18,6 +21,9 @@ import java.util.Map;
  * @description: XXXXXX
  */
 public class AcceptChessHandler implements DataListener {
+
+    UserService userService= BeanUtils.getBean(UserService.class);
+
     @Override
     public void onData(SocketIOClient client, Object data, AckRequest ackSender) throws Exception {
         ChessRequest request= (ChessRequest) data;
@@ -27,12 +33,14 @@ public class AcceptChessHandler implements DataListener {
         Map msg = new HashMap();
         msg.put("from",mine);
         msg.put("type",2);
+        msg.put("name",request.getMineName());
 
         SocketIOClient myClient = CacheUtil.getClient(mine);
         Map myMsg = new HashMap();
         myMsg.put("from",to);
         myMsg.put("type",1);
-
+        User u=userService.getUserById(to);
+        myMsg.put("name",u.getUsername());
         toClient.sendEvent("acceptChess",msg);
         myClient.sendEvent("acceptChess",myMsg);
     }

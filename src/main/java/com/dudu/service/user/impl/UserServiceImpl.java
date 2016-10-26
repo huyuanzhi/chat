@@ -52,4 +52,9 @@ public class UserServiceImpl implements UserService {
     public Object findUserExistByEmail(String email) throws Exception {
         return daoSupport.findForObject("UserMapper.findUserExistByEmail",email);
     }
+
+    @Override
+    public User getUserById(String to) throws Exception {
+        return (User) daoSupport.findForObject("UserMapper.getUserById",to);
+    }
 }

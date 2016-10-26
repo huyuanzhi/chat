@@ -23,6 +23,7 @@ public class Server {
         server.addEventListener("acceptChess",ChessRequest.class, new AcceptChessHandler());
         server.addEventListener("chessClick", Chess.class, new ChessClickHandler(server));
         server.addEventListener("isWell",Map.class,new ChessSuccessHandler(server));
+        server.addEventListener("chessAbandon",Object.class,new ChessAbandonHandler());
         server.start();
     }
 

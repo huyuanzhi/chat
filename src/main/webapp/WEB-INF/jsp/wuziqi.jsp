@@ -14,15 +14,16 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <script src="<%=basePath%>js/lib/jquery.js"></script>
-    <script src="<%=basePath%>js/lib/layui/layui.js"></script>
-    <script src="<%=basePath%>js/lib/socket.io.js"></script>
     <title></title>
+    <link rel="stylesheet" href="<%=basePath%>css/layui.css" media="all">
     <style type="text/css">
         body {
             margin: 10px;
         }
     </style>
+    <script src="<%=basePath%>js/lib/jquery.js"></script>
+    <script src="<%=basePath%>js/lib/layer/layer.js"></script>
+    <script src="<%=basePath%>js/lib/socket.io.js"></script>
     <script type="text/javascript">
         var socket = io.connect('http://localhost:9002');
         var type = '${type}';
@@ -54,10 +55,16 @@
             if(data.to == '${sessionScope.user.id}'){
                 isWell = true;
                 if (data.chess == '${type}') {
-                    alert("恭喜，你赢了！");
+                    layer.msg("恭喜，你赢了！",{icon:6},function(){
+                        var index = parent.layer.getFrameIndex(window.name);
+                        parent.layer.close(index);
+                    });
                 }
                 else {
-                    alert("很遗憾，再接再厉！");
+                    layer.msg("很遗憾，再接再厉！",{icon:5},function(){
+                        var index = parent.layer.getFrameIndex(window.name);
+                        parent.layer.close(index);
+                    });
                 }
             }
         });
@@ -85,12 +92,12 @@
             var y = parseInt((e.clientY - 20) / 40);
 
             if(isWell){
-                alert("已经结束了再来一盘吧！");
+                layer.msg("已经结束了再来一盘吧！",{icon:6});
                 return;
             }
 
             if (chessData[x][y] != 0) {//判断该位置是否被下过了
-                alert("你不能在这个位置下棋");
+                layer.msg("你不能在这个位置下棋!");
                 return;
             }
 
@@ -105,7 +112,7 @@
                 };
                 socket.emit("chessClick",msg);
             }else{
-                alert("先让对手下完吧！");
+                layer.msg("先让对手下完吧！");
             }
 
         }
@@ -190,10 +197,16 @@
                 }
                 socket.emit("isWell",msg);
                 if (chess == '${type}') {
-                    alert("恭喜，你赢了！");
+                    layer.msg("恭喜，你赢了！",{icon:6},function(){
+                        var index = parent.layer.getFrameIndex(window.name);
+                        parent.layer.close(index);
+                    });
                 }
                 else {
-                    alert("很遗憾你输了，再接再厉！");
+                    layer.msg("很遗憾，再接再厉！",{icon:5},function(){
+                        var index = parent.layer.getFrameIndex(window.name);
+                        parent.layer.close(index);
+                    });
                 }
             }
         }
