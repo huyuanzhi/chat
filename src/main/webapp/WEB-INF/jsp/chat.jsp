@@ -22,7 +22,7 @@
 <script src="<%=basePath%>js/lib/layui/layui.js"></script>
 <script src="<%=basePath%>js/lib/socket.io.js"></script>
 <script type="text/javascript">
-
+    var socket = io.connect('http://localhost:9002');
     layui.use('layim', function () {
         var layim = layui.layim;
         //基础配置
@@ -61,7 +61,6 @@
             , find: '/layimdemo/find.html'
         });
         layim.on('ready', function(options){
-            var socket = io.connect('http://localhost:9002');
             socket.emit("init", "${sessionScope.user.id}");
             socket.on("chatEvent", function (data) {
                 layim.getMessage(data)
@@ -87,7 +86,7 @@
                     shadeClose: true,
                     shade: false,
                     maxmin: false, //开启最大化最小化按钮
-                    area: ['893px', '600px'],
+                    area: ['700px', '720px'],
                     content: '<%=basePath%>app/playChess?to='+data.from+"&type="+data.type
                 });
             });

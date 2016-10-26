@@ -43,6 +43,25 @@
             }
         }
 
+        socket.on("chessClick",function(data){
+            if('${sessionScope.user.id}'==data.to){
+                turn = true;
+                drawChess(data.type,data.posX,data.posY);
+            }
+        });
+
+        socket.on("isWell",function(data){
+            if(data.to == '${sessionScope.user.id}'){
+                isWell = true;
+                if (data.chess == '${type}') {
+                    alert("恭喜，你赢了！");
+                }
+                else {
+                    alert("很遗憾，再接再厉！");
+                }
+            }
+        });
+
         function drawRect() {//页面加载完毕调用函数，初始化棋盘
             canvas = document.getElementById("canvas");
             context = canvas.getContext("2d");
@@ -65,6 +84,11 @@
             var x = parseInt((e.clientX - 20) / 40);//计算鼠标点击的区域，如果点击了（65，65），那么就是点击了（1，1）的位置
             var y = parseInt((e.clientY - 20) / 40);
 
+            if(isWell){
+                alert("已经结束了再来一盘吧！");
+                return;
+            }
+
             if (chessData[x][y] != 0) {//判断该位置是否被下过了
                 alert("你不能在这个位置下棋");
                 return;
@@ -76,7 +100,7 @@
                 var msg = {
                     type:type,
                     posX:x,
-                    postY:y,
+                    posY:y,
                     to:'${to}'
                 };
                 socket.emit("chessClick",msg);
@@ -86,19 +110,7 @@
 
         }
 
-        socket.on("chessClick",function(data){
-            turn = true;
-            if('${sessionScope.user.id}'==data.to){
-                drawChess(data.type,data.posX,data.posY);
-
-            }
-        });
-
         function drawChess(chess, x, y) {//参数为，棋（1为白棋，2为黑棋），数组位置
-            if (isWell == true) {
-                alert("已经结束了，如果需要重新玩，请刷新");
-                return;
-            }
             if (x >= 0 && x < 15 && y >= 0 && y < 15) {
                 if (chess == 1) {
                     context.drawImage(img_w, x * 40 + 20, y * 40 + 20);//绘制白棋
@@ -171,13 +183,18 @@
             }
 
             if (count1 >= 5 || count2 >= 5 || count3 >= 5 || count4 >= 5) {
-                if (chess == 1) {
-                    alert("白棋赢了");
+                isWell = true;
+                var msg={
+                    to:'${to}',
+                    chess:chess
+                }
+                socket.emit("isWell",msg);
+                if (chess == '${type}') {
+                    alert("恭喜，你赢了！");
                 }
                 else {
-                    alert("黑棋赢了");
+                    alert("很遗憾你输了，再接再厉！");
                 }
-                isWell = true;//设置该局棋盘已经赢了，不可以再走了
             }
         }
     </script>

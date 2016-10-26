@@ -57,6 +57,9 @@ public class LoginController {
     public String afterLogin(HttpServletRequest request){
         try {
             User sessionUser= (User) request.getSession().getAttribute("user");
+            if(sessionUser != null){
+                return "chat";
+            }
             AccessToken accessTokenObj = (new Oauth()).getAccessTokenByRequest(request);
             String accessToken, openID;
             long tokenExpireIn = 0L;
@@ -71,9 +74,6 @@ public class LoginController {
 
                 OpenID openIDObj =  new OpenID(accessToken);
                 openID = openIDObj.getUserOpenID();
-                if(sessionUser != null && sessionUser.getOpenId().equals(openID)){
-                    return "chat";
-                }
                 User user=userService.getUserByOpenId(openID);
                 if(user != null && user.getIsUse() == 1){
                     request.getSession().setAttribute("user",user);

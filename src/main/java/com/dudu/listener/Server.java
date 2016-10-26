@@ -21,7 +21,8 @@ public class Server {
         server.addEventListener("chatEvent", Map.class, new ChatHandler());
         server.addEventListener("playChess", ChessRequest.class, new ChessHandler());
         server.addEventListener("acceptChess",ChessRequest.class, new AcceptChessHandler());
-        server.addEventListener("chessClick", Chess.class, new ChessClickHandler());
+        server.addEventListener("chessClick", Chess.class, new ChessClickHandler(server));
+        server.addEventListener("isWell",Map.class,new ChessSuccessHandler(server));
         server.start();
     }
 
