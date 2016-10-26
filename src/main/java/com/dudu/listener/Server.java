@@ -12,7 +12,7 @@ public class Server {
 
     protected void main(){
         final Configuration chatConfig = new Configuration();
-        chatConfig.setHostname("localhost");
+        chatConfig.setHostname("120.25.66.175");
         chatConfig.setPort(9002);
 
         final SocketIOServer server = new SocketIOServer(chatConfig);

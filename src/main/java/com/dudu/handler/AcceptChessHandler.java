@@ -32,13 +32,13 @@ public class AcceptChessHandler implements DataListener {
         SocketIOClient toClient = CacheUtil.getClient(to);
         Map msg = new HashMap();
         msg.put("from",mine);
-        msg.put("type",2);
+        msg.put("type",1);
         msg.put("name",request.getMineName());
 
         SocketIOClient myClient = CacheUtil.getClient(mine);
         Map myMsg = new HashMap();
         myMsg.put("from",to);
-        myMsg.put("type",1);
+        myMsg.put("type",2);
         User u=userService.getUserById(to);
         myMsg.put("name",u.getUsername());
         toClient.sendEvent("acceptChess",msg);

@@ -25,7 +25,7 @@
     <script src="<%=basePath%>js/lib/layer/layer.js"></script>
     <script src="<%=basePath%>js/lib/socket.io.js"></script>
     <script type="text/javascript">
-        var socket = io.connect('http://localhost:9002');
+        var socket = io.connect('http://120.25.66.175:9002');
         var type = '${type}';
         var turn = true;
         var canvas;
@@ -112,7 +112,7 @@
                 };
                 socket.emit("chessClick",msg);
             }else{
-                layer.msg("先让对手下完吧！");
+                layer.msg("轮到对手下棋！");
             }
 
         }
@@ -210,9 +210,19 @@
                 }
             }
         }
+
+        $(function () {
+            drawRect();
+            if(parseInt("${type}") == 1){
+                layer.msg("你白棋先下！",{time:4000});
+            }else{
+                layer.msg("你黑棋，对手先下，请等候对手下棋！",{time:4000});
+                turn = false;
+            }
+        });
     </script>
 </head>
-<body onload="drawRect()">
+<body>
 <div>
     <canvas width="640" id="canvas" onmousedown="play(event)" height="640">你的浏览器不支持HTML5 canvas  ，请使用 google chrome 浏览器 打开.
     </canvas>
